@@ -1,43 +1,61 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   funciones.h
- * Author: juliooantonioo
- *
- * Created on 20 de agosto de 2018, 21:38
- */
-
 #ifndef FUNCIONES_H
 #define FUNCIONES_H
+
+#include <cstdlib>
+#include "funciones.h"
+#include <fstream>
 #include <string>
+#include <string.h>
+#include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
+void mostrarmatriz(int [][13]);
+
 struct estacion{
-    string nombre;    
+    int linea1;
+    int i1;
+    int linea2;
+    int i2;
 };
 
-struct combinacion{
-    int indice;
-    int lineaorigen;
-    int indicedes;
-    int lineades;
+struct caminoacumulado{
+    int acumulado;
+    int estado;
 };
+void iniciofinlineas(string ,string , string[][30], estacion& , estacion&);
 
-struct estacionrecorrida{
-    int linea;
-    int indice;
-};
+bool mismaestacion(string, string);
 
+void infocombis(estacion[]);
 
+void inicioentrenodos(estacion[],estacion&,int&,int&);
 
-void ordenardatos();
-bool coincide(estacion,string);
-int recorrer(int,int);
-void combinacionesposibles();
-int numcombinaciones(int);
+void finentrenodos(estacion[],estacion&,int&,int&);
+
+void agregarnodoinicio(int [][13], estacion ,int,int,estacion);
+
+void agregarnodofin(int [][13], estacion ,int,int,estacion);
+
+void iniciarmatrizcaminos(caminoacumulado[][13]);
+
+void caminomascorto(int [][13],int[]);
+
+bool recorrido(int[],int);
+
+void desplegarmatrizrecorrido(caminoacumulado [][13]);
+
+void filtrarcaminos(caminoacumulado[][13], int[]);
+
+void desplegarlista(int[]);
+
+void estacionesentre(int,string [][30],int,int);
+
+int lineacomun(int,int,estacion[],int&,int&);
+
+void obtenerruta(int[], estacion[],string [][30]);
+
+void imprimirestacion(string);
+
 #endif /* FUNCIONES_H */
