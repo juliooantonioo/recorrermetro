@@ -10,8 +10,8 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     estacion infoinicio,infofin;
-    int ruta[13];
-    int combinaciones[13][13]={
+    int ruta[13]; //13 combinaciones totales
+    int combinaciones[13][13]={ //Matriz de adyacencia de combinaciones
     {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
     {-1,-1,6,10,-1,-1,-1,-1,-1,-1,-1,-1,-1},
     {-1,6,-1,1,3,-1,-1,-1,-1,-1,-1,-1,-1},
@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     estacion listacombinaciones[13],entreorigen,entredestino;
     string nombresredmetro[6][30];
     infocombis(listacombinaciones);
-    int izqi=-1,izqf=-1,deri=-1,derf=-1;
+    int izqi=-1,izqf=-1,deri=-1,derf=-1; //variables para distinguir estacion de combinaciones adyacentes a estaciones origen y destino
     if (argv[1][0]=='-' and argv[1][1]=='f'){
         iniciofinlineas(argv[3],argv[2], nombresredmetro, infoinicio , infofin);
         listacombinaciones[0]=infoinicio;

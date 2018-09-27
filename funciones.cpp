@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void mostrarmatriz(int combis[][13]){
+void mostrarmatriz(int combis[][13]){ //Funcion vacia para mostrar matriz
     for (int i=0;i<13;i++){
         for (int j=0;j<13;j++){
             cout<<combis[i][j]<<' ';
@@ -18,7 +18,7 @@ void mostrarmatriz(int combis[][13]){
     }
 }
 
-bool coincide(string lineatexto,string codigo){
+bool coincide(string lineatexto,string codigo){ //Funcion booleanada para identificar si son o no iguales el codigo estacion
     if (lineatexto.find(codigo+" ")==0){
         return true;
     }
@@ -29,11 +29,12 @@ bool coincide(string lineatexto,string codigo){
 }
 
 void iniciofinlineas(string codigo1,string codigo2, string redmetro[][30], estacion& inicial, estacion& fin){
-    int cont=0;
+    int cont=0; //para moverse dentro de matriz
     ifstream fichero;
     inicial.linea2=99;
     fin.linea2=99;
     fichero.open("linea1.txt");
+	//Solamente lectura de estaciones de metro respectivas lineas - while generales
     while (!fichero.eof()){
         getline(fichero,redmetro[0][cont]);
         if (coincide(redmetro[0][cont],codigo1)==true){
@@ -48,8 +49,8 @@ void iniciofinlineas(string codigo1,string codigo2, string redmetro[][30], estac
     }
     cont=0;
     fichero.close();
-    fichero.open("linea2.txt");
-    while (!fichero.eof()){
+    fichero.open("linea2.txt"); //lectura de estacion en while 
+    while (!fichero.eof()){ 
         getline(fichero,redmetro[1][cont]);
         if (coincide(redmetro[1][cont],codigo1)==true){
             inicial.linea1=2;
@@ -63,7 +64,7 @@ void iniciofinlineas(string codigo1,string codigo2, string redmetro[][30], estac
     }
     cont=0;
     fichero.close();
-    fichero.open("linea4.txt");
+    fichero.open("linea4.txt"); //lectura de estacion en while
     while (!fichero.eof()){
         getline(fichero,redmetro[2][cont]);
         if (coincide(redmetro[2][cont],codigo1)==true){
@@ -78,7 +79,7 @@ void iniciofinlineas(string codigo1,string codigo2, string redmetro[][30], estac
     }
     cont=0;
     fichero.close();
-    fichero.open("linea4a.txt");
+    fichero.open("linea4a.txt"); //lectura de estacion en while
     while (!fichero.eof()){
         getline(fichero,redmetro[3][cont]);
         if (coincide(redmetro[3][cont],codigo1)==true){
@@ -93,7 +94,7 @@ void iniciofinlineas(string codigo1,string codigo2, string redmetro[][30], estac
     }
     cont=0;
     fichero.close();
-    fichero.open("linea5.txt");
+    fichero.open("linea5.txt"); //lectura de estacion en while
     while (!fichero.eof()){
         getline(fichero,redmetro[4][cont]);
         if (coincide(redmetro[4][cont],codigo1)==true){
@@ -108,7 +109,7 @@ void iniciofinlineas(string codigo1,string codigo2, string redmetro[][30], estac
     }
     cont=0;
     fichero.close();
-    fichero.open("linea6.txt");
+    fichero.open("linea6.txt"); //lectura de estacion en while
     while (!fichero.eof()){
         getline(fichero,redmetro[5][cont]);
         if (coincide(redmetro[5][cont],codigo1)==true){
@@ -125,7 +126,7 @@ void iniciofinlineas(string codigo1,string codigo2, string redmetro[][30], estac
     fichero.close();
 }
 
-
+//Matriz de combinaciones de estaciones de cambio de linea
 void infocombis(estacion estaciones[]){
     estaciones[1].i1=0,estaciones[1].linea1=1,estaciones[1].i2=8,estaciones[1].linea2=5; 
     estaciones[2].i1=13,estaciones[2].linea1=2,estaciones[2].i2=14,estaciones[2].linea2=5;
@@ -140,7 +141,7 @@ void infocombis(estacion estaciones[]){
     estaciones[11].i1=13,estaciones[11].linea1=4,estaciones[11].i2=29,estaciones[11].linea2=5;
 }
 
-void inicioentrenodos(estacion listacombinaciones[],estacion &origen,int &izq,int &der)
+void inicioentrenodos(estacion listacombinaciones[],estacion &origen,int &izq,int &der)//encuentra las estaciones de cambio de linea correspondientes a la estacion origen
 {
     int cont,validador=1;
     origen.i1=-1;
@@ -184,7 +185,9 @@ void inicioentrenodos(estacion listacombinaciones[],estacion &origen,int &izq,in
     }
 }
 
-void finentrenodos(estacion listacombinaciones[],estacion &destino, int &izq,int &der){
+//Ejemplo: estacion origen UdeCh - Nodos: Los heroes (izq) - Baquedano (Der)
+
+void finentrenodos(estacion listacombinaciones[],estacion &destino, int &izq,int &der){//encuentra las estaciones de cambio de linea correspondientes a la estacion final
     int cont,validador=1;
     destino.i1=-1;
     destino.i2=-1;
@@ -227,6 +230,7 @@ void finentrenodos(estacion listacombinaciones[],estacion &destino, int &izq,int
     }
 }
 
+//funcion para agregar a matriz estacion inicial ingresado por pantalla
 void agregarnodoinicio(int combinaciones[][13], estacion indicesnodos,int izq,int der,estacion actual){
     if (izq!=-1){
         combinaciones[0][izq]=abs(indicesnodos.i1-actual.i1);
@@ -242,6 +246,7 @@ void agregarnodoinicio(int combinaciones[][13], estacion indicesnodos,int izq,in
     }
 }
 
+//funcion para agrega a matriz estacion final o estacion a llegar ingresado por pantalla
 void agregarnodofin(int combinaciones[][13], estacion indicesnodos,int izq,int der,estacion actual){
     if (izq!=-1){
         combinaciones[12][izq]=abs(indicesnodos.i1-actual.i1);
@@ -275,6 +280,7 @@ bool recorrido(int nodosrecorridos[], int nodo){
     return false;
 }
 
+//Muestra camino a tomar de estacion inicial a estacion final
 void desplegarmatrizrecorrido(caminoacumulado matriz[][13]){
     for (int i=0;i<13;i++){
         for (int j=0;j<13;j++){
@@ -284,8 +290,9 @@ void desplegarmatrizrecorrido(caminoacumulado matriz[][13]){
     }
 }
 
+//funcion para encontrar camino mas corto
 void filtrarcaminos(caminoacumulado matriz[][13], int lista[]){
-    int minimo=999;
+    int minimo=999; //variable supuesto mayor para obtener siempre el valor mas pequeno
     for(int i=0;i<13;i++){
         for (int j=0;j<13;j++){
             if (matriz[j][i].acumulado<minimo and matriz[j][i].acumulado!=-1){
@@ -297,12 +304,14 @@ void filtrarcaminos(caminoacumulado matriz[][13], int lista[]){
     }
 }
 
+//funcion para mostrar lista 
 void desplegarlista(int lista[]){
     for (int i=0; i<13;i++){
         cout<<lista[i]<<endl;
     }
 }
 
+//funcion para encontrar todos los caminos posibles
 void caminomascorto(int combinaciones[][13],int caminosdef[]){
     caminoacumulado matrizcaminos[13][13];
     int iactual=0,jactual=0;
@@ -334,7 +343,7 @@ void caminomascorto(int combinaciones[][13],int caminosdef[]){
         matrizcaminos[iactual][jactual].estado=2;
         minimo=99;        
     }
-    filtrarcaminos(matrizcaminos,caminosdef);    
+    filtrarcaminos(matrizcaminos,caminosdef); //Selecciona el mas corto    
 }
 
 void estacionesentre(int codigolinea,string combinaciones[][30],int i1,int i2){
@@ -350,6 +359,7 @@ void estacionesentre(int codigolinea,string combinaciones[][30],int i1,int i2){
     }
 }
 
+//funcion para encontrar en que linea se encuentra
 int lineacomun(int i1,int i2,estacion infocombis[],int &codigoi,int &codigof){
     int comun=99;
     int codigolinea=0;
@@ -396,6 +406,7 @@ int lineacomun(int i1,int i2,estacion infocombis[],int &codigoi,int &codigof){
     return codigolinea;
 }
 
+//Encuentra camino desde estacion final hacia estacion inicial
 void obtenerruta(int lista[], estacion infocombis[],string combinaciones[][30]){
     int indice=12,indicesgte=lista[12],codigolinea,codigoi=0,codigof=0;
     while (indicesgte!=0){
@@ -410,7 +421,7 @@ void obtenerruta(int lista[], estacion infocombis[],string combinaciones[][30]){
     }
 }
 
-void imprimirestacion(string nombre){
+void imprimirestacion(string nombre){ 
     int val=0,largo=99;
     largo=nombre.length();
     for (int i=0;i<largo;i++){
